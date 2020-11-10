@@ -20,38 +20,32 @@ tSize.on('click', (e) => {
 });
 
 // Add to Cart
-addToCart.on('click', () => {
+let totalNumber = 0;
+addToCart.on('click', (e) => {
     // check selected-size
     let size = selectedSize.text();
     if(size == '') {
         console.log('ERROR');
     } else {
-        let item = {
-            'name': 'Classic Tee',
-            'price': '$75.00',
-            'size': size,
-            'quantity': 1
+        let quantity = 1,
+            dataSize = size;
+
+        if(cartAppend.find(`#${dataSize}`).length){
+            let $el = cartAppend.find(`#${dataSize}`),
+                updateQuantity = parseInt($el.prev().children('.item-quantity').text()) + 1;
+            $el.prev().children('.item-quantity').html(updateQuantity)
+        } else {
+            cartAppend.append(`<li class="cart-item d-flex">
+                        <img class="w-25 mr-3" src="images/classic-tee.jpg" alt="Classic Tee">
+                        <div class="item-detail d-inline-block">
+                            <div class="mb-2">Classic Tee</div>
+                            <div class="mb-2"><span class="item-quantity">${quantity}</span>x <strong>$75.00</strong></div>
+                            <div class="mb-2" id="${dataSize}">Size: ${dataSize}</div>
+                        </div>
+                    </li>`);
         }
-        cartArr.push(item);
-        window.localStorage.setItem('Cart', JSON.stringify(cartArr));
     }
+    totalNumber += 1;
+    $('.cart-item-number').text(totalNumber);
 });
 
-if(JSON.parse(window.localStorage.getItem('Cart'))) {
-    let carts = JSON.parse(window.localStorage.getItem('Cart')),
-        html = '',
-        sizeArr = [];
-
-    for(let i = 0; i < carts.length; i++) {
-        html += `<li class="cart-item d-flex">
-                    <img class="w-25 mr-3" src="images/classic-tee.jpg" alt="Classic Tee">
-                    <div class="item-detail d-inline-block">
-                        <div class="mb-2">Classic Tee</div>
-                        <div class="mb-2">1x <strong>$75.00</strong></div>
-                        <div class="mb-2">Size: ${carts[i].size}</div>
-                    </div>
-                </li>`;
-    }
-    cartAppend.append(html);
-    cartItemNum.html(carts.length);
-}
