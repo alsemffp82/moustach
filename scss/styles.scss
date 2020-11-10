@@ -109,6 +109,9 @@ main {
             span.star {
                 color: $star-color;
             }
+            span.selected-size {
+                color: $dark-grey;
+            }
 
             input:checked + .btn {
                 outline: 1px $dark-grey solid;

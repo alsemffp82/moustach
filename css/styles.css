@@ -75,6 +75,9 @@ main .product-size span {
 main .product-size span.star {
   color: #C90000; }
 
+main .product-size span.selected-size {
+  color: #222222; }
+
 main .product-size input:checked + .btn {
   outline: 1px #222222 solid;
   border-color: #222222; }
